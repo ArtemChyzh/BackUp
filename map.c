@@ -7,15 +7,15 @@
 
 #define MAX_KEY_LENGTH 25
 typedef struct pair {
-    char key[MAX_KEY_LENGTH];
+    unsigned int key[MAX_KEY_LENGTH];
     void (*value)(void);
     struct pair* next;
 } pair;
 
 typedef struct map { 
-    int size;
+    unsigned int size;
     pair** items;
-    int count; 
+    unsigned int count; 
 } map;
 
 unsigned int hash(map* table, const char* key) {
@@ -25,7 +25,7 @@ unsigned int hash(map* table, const char* key) {
     return hash % table->size;
 }
 
-void initmap(map* table, int size) {
+void initmap(map* table, unsigned int size) {
     table->size = size;
     table->count = 0;
     table->items = (pair**)malloc(sizeof(pair*));
@@ -63,8 +63,10 @@ void executefrom(map* table, const char* key) {
     void* function = findin(table, key);
     if (function != NULL) 
         ((void(*)(void))function)();
-    else 
+    else { 
         printf("Error: The function wasn't found or doesn't exist\n");
+        return;
+    }
 }
 
 void freemap(map* table) {
