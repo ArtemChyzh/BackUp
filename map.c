@@ -7,7 +7,7 @@
 
 #define MAX_KEY_LENGTH 25
 typedef struct pair {
-    unsigned int key[MAX_KEY_LENGTH];
+    unsigned char key[MAX_KEY_LENGTH];
     void (*value)(void);
     struct pair* next;
 } pair;
@@ -28,7 +28,7 @@ unsigned int hash(map* table, const char* key) {
 void initmap(map* table, unsigned int size) {
     table->size = size;
     table->count = 0;
-    table->items = (pair**)malloc(sizeof(pair*));
+    table->items = (pair**)malloc(size * sizeof(pair*));
     for (int i = 0; i < table->size; ++i)
         table->items[i] = NULL;
 }
